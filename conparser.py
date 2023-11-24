@@ -79,19 +79,17 @@ def parse_log(game, line: str):
         case "hl":
             if ": " in line:
                 parsed_log = line.split(": ")
-                parsed_log[0] = parsed_log[0].replace(u'\u200e', '')
-                parsed_log[0] = parsed_log[1:] # For some reason usernames start with '☻' in this game, probably unicode fuckery.
+                parsed_log[0] = parsed_log[0][1:] # For some reason usernames start with '☻' in this game, probably unicode fuckery.
 
         case "hl2":
             if "*DEAD*" in line:
                 parsed_log = line.replace("*DEAD* ", '')
             if " : " in line:
                 parsed_log = line.split(" :  ")
-                parsed_log[0] = parsed_log[0].replace(u'\u200e', '')
 
         case _:                                                                         
             return None   
-          
+
     username = parsed_log[0]
     username = username.replace(u'\u200e', '')  # This gets rid of the 'LEFT-TO-RIGHT MARK' char.
     
