@@ -1,24 +1,38 @@
 # chat-strike
 
-Inspired by Isaac Duarte's https://github.com/Isaac-Duarte/source_cmd_parser this script integrates chat-gpt into Counter-Strike 2 allowing people in the same server to interact with it.
+Inspired by Isaac Duarte's https://github.com/Isaac-Duarte/source_cmd_parser this script integrates chat-gpt into Counter-Strike 2 (Or any GldSource, Source/2 game) allowing people in the same server to interact with it.
 
 ## Usage
 
 First, you must enable console logging, to achieve this you can do one of the following:
 
-+ Type the following into the cs2 developer console: ``con_logfile <filename>; con_timestamp 1``
++ Type the following into the in-game developer console: ``con_logfile <filename>; con_timestamp 1``
 
 or
 
-+ Add `-condebug` to your cs2 launch options on Steam.
++ Add `-condebug` to your game's launch options on Steam.
 
 If you used the latter option your path probably looks something like this: ``C:\Program Files\SteamLibrary\steamapps\common\Counter-Strike Global Offensive\game\csgo\console.log``
 
 Now open `config.ini` and set `gameconlogpath` to the appropriate path, there you will also set your in-game username and your openai api key.
+
+### Example
+
+```python
+import conparser as cp
+
+with open(cp.CON_LOG_FILE_PATH, encoding='utf-8') as logfile:
+        logfile.seek(0, 2)  # Point cursor to the end of console.log to retrieve latest line
+        while True:
+            line = cp.rt_file_read(logfile)
+            if not line:
+                continue
+            print(line) # Print each new line in console log file to terminal
+```
 
 
 ## How it works
 
 Very similar to Isaac's framework this script reads the console log file. New entries are parsed and sent to chat-gpt to generate a response which is then sent back in game chat through simulated keystrokes.
 
-Ironically enough this script has not been tested on Linux but it has been on Windows while the opposite is true for Isaac's framework 😂
+This module does not work on Linux ***yet***.
