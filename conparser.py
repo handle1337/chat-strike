@@ -22,6 +22,9 @@ def detect_game(custom_proc=None):
             case "hl.exe":
                 pname = "hl"
                 break
+            case "hl2.exe":
+                pname = "hl2"
+                break
             case "cs2.exe":
                 pname = "cs2"
                 break
@@ -65,7 +68,6 @@ def parse_log(game, line: str):
     match game:
         case "cs2":
             if "[DEAD]" in line:
-                print(parsed_log)
                 parsed_log = parsed_log[0].replace(" [DEAD]", '')
             if "!r" not in line:
                 if "[ALL]" in line:
@@ -79,6 +81,13 @@ def parse_log(game, line: str):
                 parsed_log = line.split(": ")
                 parsed_log[0] = parsed_log[0].replace(u'\u200e', '')
                 parsed_log[0] = parsed_log[1:] # For some reason usernames start with '☻' in this game, probably unicode fuckery.
+
+        case "hl2":
+            if "*DEAD*" in line:
+                parsed_log = line.replace("*DEAD* ", '')
+            if " : " in line:
+                parsed_log = line.split(" :  ")
+                parsed_log[0] = parsed_log[0].replace(u'\u200e', '')
 
         case _:                                                                         
             return None   
