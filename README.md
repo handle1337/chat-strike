@@ -6,11 +6,9 @@ Inspired by Isaac Duarte's https://github.com/Isaac-Duarte/source_cmd_parser thi
 
 First, you must enable console logging, to achieve this you can do one of the following:
 
-+ Type the following into the in-game developer console: ``con_logfile <filename>; con_timestamp 1``
++ For CS:S type the following into the in-game developer console: ``con_logfile <filename>; con_timestamp 1``
 
-or
-
-+ Add `-condebug` to your game's launch options on Steam.
++ For CS2 or HL add `-condebug` to your game's launch options on Steam.
 
 If you used the latter option your path probably looks something like this: ``C:\Program Files\SteamLibrary\steamapps\common\Counter-Strike Global Offensive\game\csgo\console.log``
 

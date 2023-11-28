@@ -1,5 +1,18 @@
 
 import conparser as cp
+import openai
+
+openai.api_key = cp.config['SETTINGS']['openaiapikey']
+
+def openai_interact(user: str, message: str, content="You are an uwu egirl, limit responses to 120 characters"):
+    message = f"I'm {user}, {message}"
+
+    messages = [{"role": "system", "content": content}, {"role": "user", "content": message}]
+    chat = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo", messages=messages
+    )
+    reply = chat.choices[0].message.content
+    return reply
 
 def main():
     username = ""
@@ -20,8 +33,8 @@ def main():
             if username and message:
                 print(f"[DEBUG] {username}: {message}:")
                 # This way we prevent chat-gpt from talking to itself
-                if cp.MY_USERNAME != username: 
-                    cp.sim_key_presses(cp.openai_interact(username, message))
+                if cp.BLACKLISTED_USERNAME != username: 
+                    cp.sim_key_presses(openai_interact(username, message))
 
 
 if __name__ == "__main__":

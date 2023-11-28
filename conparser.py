@@ -1,6 +1,5 @@
 import time
 import configparser
-import openai
 import keyboard
 import psutil
 
@@ -9,9 +8,9 @@ CONFIG_FILE_PATH = 'config.ini'
 
 config.read(CONFIG_FILE_PATH, encoding='utf-8')
 
-MY_USERNAME = config['SETTINGS']['username']
+BLACKLISTED_USERNAME = config['SETTINGS']['username']
 CON_LOG_FILE_PATH = config['SETTINGS']['gameconlogpath']
-openai.api_key = config['SETTINGS']['openaiapikey']
+CHAT_KEY = config['SETTINGS']['chatkey']
 
 
 def detect_game(custom_proc=None):
@@ -31,17 +30,6 @@ def detect_game(custom_proc=None):
             case custom_proc:
                 pname = pname.strip(".exe")
     return pname
-
-
-def openai_interact(user: str, message: str, content="You are an uwu egirl, limit responses to 120 characters"):
-    message = f"I'm {user}, {message}"
-
-    messages = [{"role": "system", "content": content}, {"role": "user", "content": message}]
-    chat = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo", messages=messages
-    )
-    reply = chat.choices[0].message.content
-    return reply
 
 
 # really hacky but it works
@@ -112,7 +100,7 @@ def rt_file_read(file: __file__):
 
 
 def sim_key_presses(text: str):
-    keyboard.press_and_release('y')
+    keyboard.press_and_release(CHAT_KEY)
     time.sleep(0.01)
     keyboard.write(text)
     time.sleep(0.01)
