@@ -13,13 +13,16 @@ It is highly recommended that you posses an openai-api key, but it is not necess
 
 First, you must enable console logging, to achieve this you can do one of the following:
 
-+ For CS:S type the following into the in-game developer console: ``con_logfile <filename>; con_timestamp 1``
++ For CS:S type the following into the in-game developer console: ``con_logfile <filename>; con_timestamp 1`` (you must do this each time you open the game)
 
 + For CS2 or HL add `-condebug` to your game's launch options on Steam.
 
 If you used the latter option your path probably looks something like this: ``C:\Program Files\SteamLibrary\steamapps\common\Counter-Strike Global Offensive\game\csgo\console.log``
 
-Now open `config.ini` and set `gameconlogpath` to the appropriate path, there you will also set your in-game username and your openai api key.
++ Open `config.ini` and set `gameconlogpath` to the appropriate path, there you will also set your in-game username and your openai api key.
+
+Now you can do `python chat.py`
+
 
 ### Example
 
@@ -41,3 +44,10 @@ with open(cp.CON_LOG_FILE_PATH, encoding='utf-8') as logfile:
 Very similar to Isaac's framework this script reads the console log file. New entries are parsed and sent to chat-gpt to generate a response which is then sent back in game chat through simulated keystrokes.
 
 This module does not work on Linux ***yet***.
+
+## TODO
+
+- [x] Implement rudimentary GUI
+- [ ] Add a dedicated tab for console|debug output
+- [ ] Give chat-gpt access to more context
+- [ ] Add more commands | custom commands
