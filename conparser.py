@@ -4,9 +4,9 @@ import keyboard
 import psutil
 
 config = configparser.ConfigParser()
-CONFIG_FILE_PATH = 'config.ini'
+CONFIG_FILE = 'config.ini'
 
-config.read(CONFIG_FILE_PATH, encoding='utf-8')
+config.read(CONFIG_FILE, encoding='utf-8')
 
 BLACKLISTED_USERNAME = config['SETTINGS']['username']
 CON_LOG_FILE_PATH = config['SETTINGS']['gameconlogpath']
@@ -16,8 +16,7 @@ CHAT_KEY = config['SETTINGS']['chatkey']
 def detect_game(custom_proc=None):
     pname = None
     for proc in psutil.process_iter():
-        pname = proc.name()
-        match pname:
+        match proc.name():
             case "hl.exe":
                 pname = "hl"
                 break
@@ -28,7 +27,9 @@ def detect_game(custom_proc=None):
                 pname = "cs2"
                 break
             case custom_proc:
-                pname = pname.strip(".exe")
+                if pname == custom_proc:
+                    pname = pname.strip(".exe")
+                continue
     return pname
 
 
