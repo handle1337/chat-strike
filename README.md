@@ -2,6 +2,13 @@
 
 Inspired by Isaac Duarte's https://github.com/Isaac-Duarte/source_cmd_parser this script integrates chat-gpt into Counter-Strike 2 (Or any GldSource, Source/2 game) allowing people in the same server to interact with it.
 
+## Requirements
+
+- 64bit Windows
+- Python 3.11+ < 3.12
+
+It is highly recommended that you posses an openai-api key, but it is not necessary unless you're attempting to use `/chat.py`
+
 ## Usage
 
 First, you must enable console logging, to achieve this you can do one of the following:

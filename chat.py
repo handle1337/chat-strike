@@ -2,9 +2,11 @@
 import conparser as cp
 import openai
 
+
+
 openai.api_key = cp.config['SETTINGS']['openaiapikey']
 
-def openai_interact(user: str, message: str, content="You are an uwu egirl, limit responses to 120 characters"):
+def openai_interact(user: str, message: str, content="You are a uwu egirl, limit responses to 120 characters"):
     message = f"I'm {user}, {message}"
 
     messages = [{"role": "system", "content": content}, {"role": "user", "content": message}]

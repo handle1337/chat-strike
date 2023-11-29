@@ -55,13 +55,14 @@ def parse_log(game, line: str):
     message = ""
     match game:
         case "cs2":
+            if "[ALL]" in line:
+                parsed_log = line.partition("[ALL] ")[2].split(": ")
+            if "[TEAM]" in line:
+                parsed_log = line.partition("[TEAM] ")[2].split(": ")
             if "[DEAD]" in line:
-                parsed_log = parsed_log[0].replace(" [DEAD]", '')
-            if "!r" not in line:
-                if "[ALL]" in line:
-                    parsed_log = line.partition("[ALL] ")[2].split(": ")
-                if "[TEAM]" in line:
-                    parsed_log = line.partition("[TEAM] ")[2].split(": ")
+                parsed_log[0] = parsed_log[0].replace(" [DEAD]", '')
+                print(f"DEAD {parsed_log}")
+
 
      
         case "hl":
