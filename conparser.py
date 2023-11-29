@@ -13,7 +13,7 @@ CON_LOG_FILE_PATH = config['SETTINGS']['gameconlogpath']
 CHAT_KEY = config['SETTINGS']['chatkey']
 
 
-def detect_game(custom_proc=None):
+def detect_game(custom_proc="customproc"):
     pname = None
     for proc in psutil.process_iter():
         match proc.name():
@@ -26,10 +26,12 @@ def detect_game(custom_proc=None):
             case "cs2.exe":
                 pname = "cs2"
                 break
-            case custom_proc:
-                if pname == custom_proc:
-                    pname = pname.strip(".exe")
-                continue
+            case _:
+                if proc.name() == custom_proc:
+                    pname = custom_proc.strip(".exe")
+                    break
+                else:
+                    continue
     return pname
 
 
@@ -94,9 +96,6 @@ def parse_log(game, line: str):
 def rt_file_read(file: __file__):
     # Reads console.log in real time 
     line = file.readline()
-
-    if not line:
-        time.sleep(0.1)
 
     return line
 
