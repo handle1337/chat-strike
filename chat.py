@@ -7,21 +7,20 @@ import conparser as cp
 
 openai.api_key = cp.config['SETTINGS']['openaiapikey']
 
-class DataValues():
+class Status():
     running = False
 
 
-
-def init(sender, app_data, user_data):
-    
-    if DataValues.running == False:
+def set_status(sender, app_data, user_data):
+    if Status.running == False:
         dpg.configure_item("start_button", label="Stop")
         dpg.set_value(user_data, "Running: True")
-        DataValues.running = True
-    elif DataValues.running == True:
+
+    elif Status.running == True:
         dpg.configure_item("start_button", label="Start")
         dpg.set_value(user_data, "Running: False")
-        DataValues.running = False
+
+    Status.running = not Status.running
 
 
 def save_config():
@@ -32,7 +31,7 @@ def save_config():
         cp.config.write(configfile)
 
 
-def openai_interact(user: str, message: str, content="You are a uwu egirl, limit responses to 120 characters"):
+def openai_interact(user: str, message: str, content="You are a toxic csgo player, limit responses to 120 characters"):
     message = f"I'm {user}, {message}"
 
     messages = [{"role": "system", "content": content}, {"role": "user", "content": message}]
@@ -66,23 +65,30 @@ def main():
         dpg.add_button(label="Save", callback=save_config)
         status_text = dpg.add_text("Running: False")
 
-        dpg.add_button(label="Start", callback=init, user_data=status_text, tag="start_button")
+        dpg.add_button(label="Start", callback=set_status, user_data=status_text, tag="start_button")
+
 
 
     dpg.set_primary_window("Chat-Strike", True)
     dpg.setup_dearpygui()
     dpg.show_viewport()
 
+    with dpg.handler_registry():
+        dpg.add_key_press_handler(dpg.mvKey_Add, callback=set_status, user_data=status_text)
+
     if cp.config['SETTINGS']['gameconlogpath'] != None:
         logfile = open(cp.CON_LOG_FILE_PATH, encoding='utf-8')
         logfile.seek(0, 2)
+
+        
 
 
     while dpg.is_dearpygui_running():
         dpg.render_dearpygui_frame()
 
-        if DataValues.running == True:
+        if Status.running == True:
             if logfile:
+                
                 line = cp.rt_file_read(logfile)
                 
                 if not line:
@@ -91,8 +97,9 @@ def main():
                 username, message = cp.parse_log(game, line)
 
                 if username and message:
-                    print(f"[DEBUG] {username}: {message}:")
+                    #print(f"[DEBUG] {username}: {message}:")
                     # This way we prevent chat-gpt from talking to itself
+                    print(f"[DEBUG] {cp.BLACKLISTED_USERNAME}: {username}:")
                     if cp.BLACKLISTED_USERNAME != username: 
                         cp.sim_key_presses(openai_interact(username, message))
                 else:
