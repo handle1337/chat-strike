@@ -31,7 +31,7 @@ def save_config():
         cp.config.write(configfile)
 
 
-def openai_interact(user: str, message: str, content="You are a toxic csgo player, limit responses to 120 characters"):
+def openai_interact(user: str, message: str, content="You are a csgo player, limit responses to 120 characters"):
     message = f"I'm {user}, {message}"
 
     messages = [{"role": "system", "content": content}, {"role": "user", "content": message}]

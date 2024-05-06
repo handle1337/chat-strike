@@ -7,7 +7,7 @@ Inspired by Isaac Duarte's https://github.com/Isaac-Duarte/source_cmd_parser thi
 - 64bit Windows
 - Python 3.11+ < 3.12
 
-It is highly recommended that you posses an openai-api key, but it is not necessary unless you're attempting to use `/chat.py`
+It is highly recommended that you possess an openai-api key, but it is not necessary unless you're attempting to use `/chat.py`
 
 ## Usage
 
@@ -45,9 +45,4 @@ Very similar to Isaac's framework this script reads the console log file. New en
 
 This module does not work on Linux ***yet***.
 
-## TODO
-
-- [x] Implement rudimentary GUI
-- [ ] Add a dedicated tab for console|debug output
-- [ ] Give chat-gpt access to more context
-- [ ] Add more commands | custom commands
+![screenshot](media/screenshot.png)
