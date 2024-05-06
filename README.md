@@ -44,10 +44,3 @@ with open(cp.CON_LOG_FILE_PATH, encoding='utf-8') as logfile:
 Very similar to Isaac's framework this script reads the console log file. New entries are parsed and sent to chat-gpt to generate a response which is then sent back in game chat through simulated keystrokes.
 
 This module does not work on Linux ***yet***.
-
-## TODO
-
-- [x] Implement rudimentary GUI
-- [ ] Add a dedicated tab for console|debug output
-- [ ] Give chat-gpt access to more context
-- [ ] Add more commands | custom commands
