@@ -71,7 +71,7 @@ def parse_log(game, line: str):
         case "hl":
             if ": " in line:
                 parsed_log = line.split(": ")
-                parsed_log[0] = parsed_log[0][1:] # For some reason usernames start with '☻' in this game, probably unicode fuckery.
+                parsed_log[0] = parsed_log[0][1:] # For some reason usernames start with '☻' in this game, probably some weird unicode thing.
 
         case "hl2":
             if "*DEAD*" in line:
