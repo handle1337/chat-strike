@@ -29,13 +29,15 @@ Now you can do `python chat.py`
 ```python
 import conparser as cp
 
+game = cp.detect_game()
+
 with open(cp.CON_LOG_FILE_PATH, encoding='utf-8') as logfile:
         logfile.seek(0, 2)  # Point cursor to the end of console.log to retrieve latest line
         while True:
             line = cp.rt_file_read(logfile)
             if not line:
                 continue
-            print(line) # Print each new line in console log file to terminal
+            print(cp.parse_log(game, line)) # Print each new line in console log file to terminal
 ```
 
 
