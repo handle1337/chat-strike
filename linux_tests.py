@@ -7,7 +7,7 @@ import conparser.conparser as cp
 log_file_path = os.path.normpath('tests/log.txt')
 print(log_file_path)
 
-class FileLogHandler(cp.ConLogEventHandler):
+class LogFileHandler(cp.ConLogEventHandler):
 
     def on_any_event(self, event):
         super().on_any_event(event)
@@ -38,7 +38,7 @@ class TestLogParsing(unittest.TestCase):
 
 
 def file_handler_test():
-    file_log_handler = FileLogHandler()
+    file_log_handler = LogFileHandler()
     file_log_handler.game = "cs2"
     file_log_handler.logfile_path = log_file_path
 
