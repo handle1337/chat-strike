@@ -1,7 +1,42 @@
 import time
+import os
 import configparser
+import typing
 import keyboard
 import psutil
+
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
+from watchdog.events import FileSystemEvent
+
+observer = Observer()
+
+class ConLogEventHandler(FileSystemEventHandler):
+    def __init__(self, game: str = ''):
+        super().__init__()
+
+        self.game: str = game
+        self.logfile_path: str = None
+
+        def on_any_event(self, event: FileSystemEvent) -> None:
+            super().on_any_event(event)
+
+        def on_modified(self, event: FileSystemEvent) -> None:
+            super().on_modified(event)
+
+
+
+# doesnt work on linux for some reason
+    # def on_modified(self):
+    #     print("modified")
+    #     if self.logfile:
+                    
+    #         line = rt_file_read(self.logfile)
+
+    #         username, message = parse_log(self.game, line)
+    #         print(f"LINE: {line} USER: {username} MSG: {message}")
+
+
 
 config = configparser.ConfigParser()
 CONFIG_FILE = 'config.ini'
@@ -11,6 +46,7 @@ config.read(CONFIG_FILE, encoding='utf-8')
 BLACKLISTED_USERNAME = config['SETTINGS']['username']
 CON_LOG_FILE_PATH = config['SETTINGS']['gameconlogpath']
 CHAT_KEY = config['SETTINGS']['chatkey']
+
 
 
 def detect_game(custom_proc="customproc"):
@@ -93,11 +129,16 @@ def parse_log(game, line: str):
 
 
 
-def rt_file_read(file: __file__):
+def rt_file_read(file: typing.BinaryIO):
     # Reads console.log in real time 
-    line = file.readline()
+    try:  # catch OSError in case of a one line file 
+        file.seek(-2, os.SEEK_END)
+        while file.read(1) != b'\n':
+            file.seek(-2, os.SEEK_CUR)
+    except OSError:
+        file.seek(0)
 
-    return line
+    return file.readline().decode()
 
 
 def sim_key_presses(text: str):
